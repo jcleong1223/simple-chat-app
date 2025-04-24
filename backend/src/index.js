@@ -1,11 +1,29 @@
 import express from "express";
+import dotenv from "dotenv";
+import cookieParser from 'cookie-parser';
+
 
 import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
+
+import { connectDB } from "./lib/db.js";
+
+/****** Need to have this use the data in .env file ******/
+dotenv.config();
+const PORT = process.env.PORT;
 
 const app = express();
 
-app.use("/api/auth", authRoutes);
+/****** Need to have this to parse request body as JSON ******/
+app.use(express.json());
 
-app.listen(5001, () => {
-    console.log("Server running on port 5001");
+/****** Need to have this to parse the cookie, so we can get the value of the JWT token ******/
+app.use(cookieParser());
+
+app.use("/api/auth", authRoutes);
+app.use("/api/message", messageRoutes);
+
+app.listen(PORT, () => {
+    console.log("Server running on port: " +PORT);
+    connectDB();
 })
