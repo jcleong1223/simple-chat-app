@@ -15,7 +15,7 @@ const SignUpPage = () => {
         email: '',
     });
 
-    const { signup, setSignUp } = useAuthStore();
+    const { signup, isSigningUp } = useAuthStore();
 
     const validateForm = () => {
         if(!formData.fullName.trim()) return toast.error("Full name is required");
@@ -45,7 +45,7 @@ const SignUpPage = () => {
                     {/* Logo */}
                     <div className="text-center mb-8">
                         <div className="flex flex-col item-center gap-2 group">
-                            <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <div className="size-15 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                                 <MessageSquare className="size-6 text-primary"/>
                             </div>
 
@@ -121,8 +121,8 @@ const SignUpPage = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-full" disabled={signup}>
-                            { signup
+                        <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+                            { isSigningUp
                                 ?
                                 <>
                                     <Loader2 className="size-5 animate-spin"/> Loading.....
@@ -147,16 +147,11 @@ const SignUpPage = () => {
 
 
             {/* Right side */}
-            <div>
-                <AuthImagePattern 
-                    title="Join our community"
-                    subtitle="Connect with friends, share moments, and stay in touch with your loved ones"
-                />
 
-
-            </div>
-
-
+            <AuthImagePattern 
+                title="Join our community"
+                subtitle="Connect with friends, share moments, and stay in touch with your loved ones"
+            />
         </div>
     )
 }
