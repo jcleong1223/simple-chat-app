@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 /****** With this function, we can check if the user is authenticated or not wherever we call this ******/
 export const useAuthStore = create((set) => ({
 
-    authUser:null, /****** Initialize authUser as null, because we don't know if the user is authenticated or not ******/
+    authUser: null, /****** Initialize authUser as null, because we don't know if the user is authenticated or not ******/
 
     isSigningUp: false,
 
@@ -48,5 +48,46 @@ export const useAuthStore = create((set) => ({
         } finally {
             set({ isSigningUp: false });
         }
-    }
+    },
+
+    login: async (data) => {
+        set({ isLoggingIn: true });
+        try {
+            const response = await axiosInstance.post("/auth/login", data);
+            set({ authUser: response.data });
+            toast.success("Logged in successfully");
+
+        } catch (error) {
+            toast.error(error.response.data.message);
+
+        } finally {
+            set({ isLoggingIn: false });
+        }
+    },
+
+    logout: async () => {
+        try {
+            await axiosInstance.post("/auth/logout");
+            set({ authUser: null });
+            toast.success("Logged out successfully");
+
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    },
+
+    updateProfile: async (data) => {
+        set({ isUpdatingProfile: true });
+        try {
+            const response = await axiosInstance.put("/auth/update-profile", data);
+            set({ authUser: response.data }); /****** Set the authUser to be the newly updated data ******/
+            toast.success("Profile updated successfully");
+
+        } catch (error ) {
+            console.log("error in updating profile:", error);
+            toast.error(error.response.data.message);
+        } finally {
+            set({ isUpdatingProfile: false });
+        }
+    },
 }));
