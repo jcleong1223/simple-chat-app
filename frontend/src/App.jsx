@@ -10,13 +10,14 @@ import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
 
-    // axiosInstance.get
-
     /****** Check the user auth as long as the page is refreshed and visit our application ******/
     const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+
+    const { theme } = useThemeStore();
 
     /****** useEffect is a hook that will excute the function as soon as the application starts ******/
     useEffect(() => {
@@ -32,13 +33,15 @@ const App = () => {
     )
 
     return (
-        <div>
-            <Navbar />
+        <div data-theme={theme}>
+            <Navbar/>
+
+
             <Routes>
                 <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login"/>}/>
                 <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/"/>}/>
                 <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/"/>}/>
-                <Route path="/setting" element={<SettingsPage />}/>
+                <Route path="/settings" element={<SettingsPage />}/>
                 <Route path="/profile" element={<ProfilePage />}/>
             </Routes>
 
