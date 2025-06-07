@@ -3,7 +3,8 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { io } from "../../../backend/src/lib/socket";
 
-const BASE_URL = "http://localhost:5001";
+/****** Use import.meta.env.MODE instead of process.env.NODE_ENV because this is the frontend code ******/
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001/api" : "/";
 
 /****** With this function, we can check if the user is authenticated or not wherever we call this ******/
 export const useAuthStore = create((set, get) => ({ /****** The get method is used to get any state or function inside this file, just like the self:: or $this-> in PHP ******/
